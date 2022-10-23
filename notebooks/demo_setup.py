@@ -308,3 +308,7 @@ class DemoSetup:
 # Instantiate pipeline
 demo_setup_pipeline = DemoSetup(conf=pipeline_config, env_vars=env_vars)
 demo_setup_pipeline.run()
+
+# COMMAND ----------
+
+
