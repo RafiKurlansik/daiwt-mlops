@@ -36,15 +36,15 @@ jobs:
 
       - name: Deploy PROD-telco-churn-model-train job [prod environment]
         run: |
-          dbx deploy --deployment-file conf/deployment.yml --jobs=daiwt-PROD-telco-churn-model-train --environment=prod
+          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-train
 
       - name: Deploy PROD-telco-churn-model-deployment job [prod environment]
         run: |
-          dbx deploy --deployment-file conf/deployment.yml --jobs=daiwt-PROD-telco-churn-model-deployment --environment=prod
+          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-deployment
 
       - name: Deploy PROD-telco-churn-model-inference-batch job [prod environment]
         run: |
-          dbx deploy --deployment-file conf/deployment.yml --jobs=daiwt-PROD-telco-churn-model-inference-batch --environment=prod
+          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-inference-batch
 
       - name: Create Release
         id: create_release
