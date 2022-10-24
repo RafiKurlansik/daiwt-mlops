@@ -100,17 +100,18 @@ environments:
           git_provider: "github"
           git_branch: "release"
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/demo_setup'
+          notebook_path: 'notebooks/demo_setup'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/prod/.prod.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
+
       - name: 'daiwt-PROD-telco-churn-initial-model-train-register'
         tasks:
           - task_key: 'demo-setup'
             <<:
               - *prod-cluster-config
             notebook_task:
-              notebook_path: 
+              notebook_path: 'notebooks/demo_setup'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
@@ -119,7 +120,7 @@ environments:
             depends_on:
               - task_key: 'demo-setup'
             notebook_task:
-              notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/feature_table_creator'
+              notebook_path: 'notebooks/feature_table_creator'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/feature_table_creator.yml']
@@ -129,7 +130,7 @@ environments:
               - task_key: 'demo-setup'
               - task_key: 'feature-table-creation'
             notebook_task:
-              notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_train'
+              notebook_path: 'notebooks/model_train'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
@@ -141,7 +142,7 @@ environments:
           git_provider: "github"
           git_branch: "release"
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_train'
+          notebook_path: 'notebooks/model_train'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/prod/.prod.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
@@ -153,7 +154,7 @@ environments:
           git_provider: "github"
           git_branch: "release"
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_deployment'
+          notebook_path: 'notebooks/model_deployment'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/prod/.prod.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
@@ -165,7 +166,7 @@ environments:
           git_provider: "github"
           git_branch: "release"
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_inference_batch'
+          notebook_path: 'notebooks/model_inference_batch'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/prod/.prod.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
