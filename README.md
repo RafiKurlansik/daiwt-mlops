@@ -12,7 +12,7 @@ The business case at hand is a churn prediction problem. We use the [IBM Telco C
 
 ## Pipelines
 
-The following pipelines currently defined within the package are:
+This repo possesses the following pipelines:
 - `demo-setup`
     - Deletes existing feature store tables, existing MLflow experiments and models registered to MLflow Model Registry, 
       in order to start afresh for a demo.  
