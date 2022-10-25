@@ -33,17 +33,23 @@ jobs:
       - name: Install dependencies and project
         run: |
           pip install -r unit-requirements.txt
-
-      - name: Deploy PROD-telco-churn-model-train job [prod environment]
-        run: |
-          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-train
-
-      - name: Deploy PROD-telco-churn-model-deployment job [prod environment]
-        run: |
-          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-deployment
-
-      - name: Deploy PROD-telco-churn-model-inference-batch job [prod environment]
-        run: |
-          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-inference-batch
-          
       
+      - name: Deploy multi-task workflow daiwt-PROD-telco-churn-train-deploy-inference-workflow [prod environment]
+        run: |
+          dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-train-deploy-inference-workflow
+        
+      - name: Launch model training, deployment and inference workflow [prod environment]
+        run: |
+          dbx launch -e prod daiwt-PROD-telco-churn-train-deploy-inference-workflow
+
+      # - name: Deploy PROD-telco-churn-model-train job [prod environment]
+      #   run: |
+      #     dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-train
+
+      # - name: Deploy PROD-telco-churn-model-deployment job [prod environment]
+      #   run: |
+      #     dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-deployment
+
+      # - name: Deploy PROD-telco-churn-model-inference-batch job [prod environment]
+      #   run: |
+      #     dbx deploy -e prod --deployment-file conf/deployment.yml daiwt-PROD-telco-churn-model-inference-batch

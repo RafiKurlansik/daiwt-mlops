@@ -136,13 +136,13 @@ environments:
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
 
       - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow'
-        tasks:
-          - task_key: 'model-train'
-            <<: *prod-cluster-config
-          git_source:
+        git_source:
           git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
           git_provider: "github"
           git_branch: "release"
+        tasks:
+          - task_key: 'model-train'
+            <<: *prod-cluster-config
             notebook_task:
               notebook_path: 'notebooks/model_train'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
@@ -150,31 +150,24 @@ environments:
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
           - task_key: 'model-deploy'
             <<: *prod-cluster-config
+            notebook_task:
+              notebook_path: 'notebooks/model_deployment'
+              parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
+                          '--env', 'file:fuse://conf/prod/.prod.env',
+                          '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
             depends_on:
               - task_key: 'model-train'
-            git_source:
-            git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
-            git_provider: "github"
-            git_branch: "release"
-              notebook_task:
-                notebook_path: 'notebooks/model_deployment'
-                parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
-                            '--env', 'file:fuse://conf/prod/.prod.env',
-                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
+
           - task_key: 'model-inference-batch'
             <<: *prod-cluster-config
+            notebook_task:
+              notebook_path: 'notebooks/model_inference_batch'
+              parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
+                           '--env', 'file:fuse://conf/prod/.prod.env',
+                           '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
             depends_on:
               - task_key: 'model-train'
               - task_key: 'model-deploy'
-            git_source:
-            git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
-            git_provider: "github"
-            git_branch: "release"
-              notebook_task:
-                notebook_path: 'notebooks/model_inference_batch'
-                parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
-                             '--env', 'file:fuse://conf/prod/.prod.env',
-                             '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
 
       - name: 'daiwt-PROD-telco-churn-model-train'
         <<:
@@ -183,11 +176,13 @@ environments:
           git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
           git_provider: "github"
           git_branch: "release"
-        notebook_task:
-          notebook_path: 'notebooks/model_train'
-          parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
-                       '--env', 'file:fuse://conf/prod/.prod.env',
-                       '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
+        tasks:
+          - task_key: 'model-train'
+            notebook_task:
+              notebook_path: 'notebooks/model_train'
+              parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
+                           '--env', 'file:fuse://conf/prod/.prod.env',
+                           '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
       - name: 'daiwt-PROD-telco-churn-model-deployment'
         <<:
           - *prod-cluster-config
@@ -195,11 +190,13 @@ environments:
           git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
           git_provider: "github"
           git_branch: "release"
-        notebook_task:
-          notebook_path: 'notebooks/model_deployment'
-          parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
-                       '--env', 'file:fuse://conf/prod/.prod.env',
-                       '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
+        tasks:
+          - task_key: 'model-deploy'
+            notebook_task:
+              notebook_path: 'notebooks/model_deployment'
+              parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
+                           '--env', 'file:fuse://conf/prod/.prod.env',
+                           '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
       - name: 'daiwt-PROD-telco-churn-model-inference-batch'
         <<:
           - *prod-cluster-config
@@ -207,8 +204,10 @@ environments:
           git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
           git_provider: "github"
           git_branch: "release"
-        notebook_task:
-          notebook_path: 'notebooks/model_inference_batch'
-          parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
-                       '--env', 'file:fuse://conf/prod/.prod.env',
-                       '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
+        tasks:
+          - task_key: 'model-inference-batch'
+            notebook_task:
+              notebook_path: 'notebooks/model_inference_batch'
+              parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
+                           '--env', 'file:fuse://conf/prod/.prod.env',
+                           '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
