@@ -1,11 +1,14 @@
-# e2e-mlops
+# MLOps on Databricks
+#### Unifying DataOps, ModelOps, and DevOps
 
-This repo is intended to demonstrate an end-to-end MLOps workflow on Databricks, where a model is deployed along with its ancillary pipelines to a specified (currently single) Databricks workspace.
-Each pipeline (e.g model training pipeline, model deployment pipeline) is deployed as a [Databricks job](https://docs.databricks.com/data-engineering/jobs/jobs.html), where these jobs are deployed to a Databricks workspace using Databricks Labs' [`dbx`](https://dbx.readthedocs.io/en/latest/index.html) tool. 
+This repo demonstrates an end-to-end MLOps workflow on Databricks that follows the __deploy code__ reference architecture discussed in the [Big Book of MLOps](https://bit.ly/big-book-of-mlops) and at [Data & AI Summit 2022](https://www.youtube.com/watch?v=JApPzAnbfPI).  
 
-The use case at hand is a churn prediction problem. We use the [IBM Telco Customer Churn dataset](https://community.ibm.com/community/user/businessanalytics/blogs/steven-macko/2019/07/11/telco-customer-churn-1113) to build a simple classifier to predict whether a customer will churn from a fictional telco company.
+The feature engineering, training, deployment and inference pipelines are deployed as a [Databricks Workflow](https://docs.databricks.com/data-engineering/jobs/jobs.html) using [`dbx`](https://dbx.readthedocs.io/en/latest/index.html) by Databricks Labs. GitHub Actions are used to orchestrate the movement of code from the development environment, to staging, and finally to production.  This project can be configured to use a single Databricks workspace for all three environments, or multiple workspaces.  
 
-Note that the package is solely developed via an IDE, and as such there are no Databricks Notebooks in the repository. All jobs are executed via a command line based workflow using [`dbx`](https://dbx.readthedocs.io/en/latest/).
+This project can be run as a pure Python package, or as notebooks.  The current configuration is to deploy Databricks Workflows that run notebooks, but if you want to deploy Python wheels please see [Niall Turbitt's original repo](https://github.com/niall-turbitt/e2e-mlops).  If you are curious about the structure of the codebase, please watch the demo portion of the [recording from DAIS](https://www.youtube.com/watch?v=JApPzAnbfPI).
+
+#### Preventing customer churn
+The business case at hand is a churn prediction problem. We use the [IBM Telco Customer Churn dataset](https://community.ibm.com/community/user/businessanalytics/blogs/steven-macko/2019/07/11/telco-customer-churn-1113) to build a simple classifier to predict whether a customer will churn from a fictional telecommunications company.
 
 ## Pipelines
 
@@ -27,7 +30,7 @@ The following pipelines currently defined within the package are:
 The following outlines the workflow to demo the repo.
 
 ### Set up
-1. Fork https://github.com/niall-turbitt/e2e-mlops
+1. Fork https://github.com/RafiKurlansik/daiwt-mlops
 1. Configure [Databricks CLI connection profile](https://docs.databricks.com/dev-tools/cli/index.html#connection-profiles)
     - The project is designed to use 3 different Databricks CLI connection profiles: dev, staging and prod. 
       These profiles are set in [e2e-mlops/.dbx/project.json](https://github.com/niall-turbitt/e2e-mlops/blob/main/.dbx/project.json).
@@ -49,20 +52,8 @@ The following outlines the workflow to demo the repo.
         - `GH_TOKEN`
             - GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
-    #### ASIDE: Starting from scratch
-    
-    The following resources should not be present if starting from scratch: 
-    - Feature table must be deleted
-        - The table e2e_mlops_testing.churn_features will be created when the feature-table-creation pipeline is triggered.
-    - MLflow experiment
-        - MLflow Experiments during model training and model deployment will be used in both the dev and prod environments. 
-          The paths to these experiments are configured in [conf/deployment.yml](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/deployment.yml).
-        - For demo purposes, we delete these experiments if they exist to begin from a blank slate.
-    - Model Registry
-        - Delete Model in MLflow Model Registry if exists.
-    
-    **NOTE:** As part of the `initial-model-train-register` multitask job, the first task `demo-setup` will delete these, 
-   as specified in [`demo_setup.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/demo_setup.yml).
+#### Starting from scratch
+To start over or delete all of the resources in a given workspace, run the `demo-setup` pipeline.  As part of the `initial-model-train-register` multitask job, the first task `demo-setup` will delete any existing resources, as specified in [`demo_setup.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/demo_setup.yml).
 
 ### Workflow
 
@@ -120,6 +111,7 @@ The following outlines the workflow to demo the repo.
 3. **Cut release**
 
     - Create tag (e.g. `v0.0.1`)
+        - This can be done in the GitHub UI, or from the command line of your local machine
         - `git tag <tag_name> -a -m “Message”`
             - Note that tags are matched to `v*`, i.e. `v1.0`, `v20.15.10`
     - Push tag
@@ -127,39 +119,27 @@ The following outlines the workflow to demo the repo.
 
     - On pushing this the following steps are triggered in the [`onrelease.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/.github/workflows/onrelease.yml) GitHub Actions workflow:
         1. Trigger unit tests.
-        1. Deploy `PROD-telco-churn-model-train` job to the prod environment.
-        1. Deploy `PROD-telco-churn-model-deployment` job to the prod environment.
-        1. Deploy `PROD-telco-churn-model-inference-batch` job to the prod environment.
-            - These jobs will now all be present in the specified workspace, and visible under the [Workflows](https://docs.databricks.com/data-engineering/jobs/index.html) tab.
+        1. Deploy `PROD-telco-churn-model-train-deployment-inference-workflow` job to the prod environment.
+        1. Launch `PROD-telco-churn-model-train-deployment-inference-workflow`
+        
+    - These jobs will now all be present in the specified workspace, and visible under the [Workflows](https://docs.databricks.com/data-engineering/jobs/index.html) tab.
     
 
-4. **Run `PROD-telco-churn-model-train` job in the prod environment**
-    - Manually trigger job via UI
-        - In the Databricks workspace (prod environment) go to `Workflows` > `Jobs`, where the `PROD-telco-churn-model-train` job will be present.
-        - Click into PROD-telco-churn-model-train and select ‘Run Now’. Doing so will trigger the job on the specified cluster configuration.
-    - Alternatively you can trigger the job using the Databricks CLI:
-      - `databricks jobs run-now –job-id JOB_ID`
+4. **Inspect `PROD-telco-churn-model-train-deployment-inference-workflow` job in the prod environment**
+    - In the Databricks workspace (prod environment) go to `Workflows` > `Jobs` to find it.
        
     - Model train job steps (`telco-churn-model-train`)
         1. Train improved “new” classifier (RandomForestClassifier - `max_depth=8`)
         1. Register the model. Model version 2 will be registered to stage=None upon successful model training.
-        1. **Manual Step**: MLflow Model Registry UI promotion to stage='Staging'
-            - Go to Model registry and manually promote model to stage='Staging'
+        1. MLflow Model Registry automatic transition to stage='Staging'
 
-    **ASIDE:** At this point, there should now be two model versions registered in MLflow Model Registry:
+At this point, there should now be two model versions registered in MLflow Model Registry:
         
     - Version 1 (Production): RandomForestClassifier (`max_depth=4`)
     - Version 2 (Staging): RandomForestClassifier (`max_depth=8`)
 
-
-5. **Run `PROD-telco-churn-model-deployment` job (Continuous Deployment) in the prod environment**
-    - Manually trigger job via UI
-        - In the Databricks workspace go to `Workflows` > `Jobs`, where the `telco-churn-model-deployment` job will be present.
-        - Click into telco-churn-model-deployment and click ‘Run Now’. Doing so will trigger the job on the specified cluster configuration. 
-    - Alternatively you can trigger the job using the Databricks CLI:
-      - `databricks jobs run-now –job-id JOB_ID`
-    
-    - Model deployment job steps  (`PROD-telco-churn-model-deployment`)
+5. **Inspect the `model-deployment` task (Continuous Deployment) in the prod environment**
+    - Model deployment task steps:
         1. Compare new “candidate model” in `stage='Staging'` versus current Production model in `stage='Production'`.
         1. Comparison criteria set through [`model_deployment.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/model_deployment.yml)
             1. Compute predictions using both models against a specified reference dataset
@@ -167,24 +147,17 @@ The following outlines the workflow to demo the repo.
             1. If Staging model performs worse than Production model, archive Staging model
             
 
-6. **Run `PROD-telco-churn-model-inference-batch` job in the prod environment** 
-    - Manually trigger job via UI
-        - In the Databricks workspace go to `Workflows` > `Jobs`, where the `PROD-telco-churn-model-inference-batch` job will be present.
-        - Click into telco-churn-model-inference-batch and click ‘Run Now’. Doing so will trigger the job on the specified cluster configuration.
-    - Alternatively you can trigger the job using the Databricks CLI:
-      - `databricks jobs run-now –job-id JOB_ID`
+6. **Inspect `model-inference-batch` task in the prod environment** 
 
-    - Batch model inference steps  (`PROD-telco-churn-model-inference-batch`)
+    - Batch model inference steps:
         1. Load model from stage=Production in Model Registry
-            - **NOTE:** model must have been logged to MLflow using the Feature Store API
         1. Use primary keys in specified inference input data to load features from feature store
         1. Apply loaded model to loaded features
         1. Write predictions to specified Delta path
 
 ## Limitations
 - Multitask jobs running against the same cluster
-    - The pipeline initial-model-train-register is a [multitask job](https://docs.databricks.com/data-engineering/jobs/index.html) 
-      which stitches together demo setup, feature store creation and model train pipelines. 
+    - The pipeline initial-model-train-register is a [multitask job](https://docs.databricks.com/data-engineering/jobs/index.html) which stitches together demo setup, feature store creation and model train pipelines. 
     - At present, each of these tasks within the multitask job is executed on a different automated job cluster, 
       rather than all tasks executed on the same cluster. As such, there will be time incurred for each task to acquire 
       cluster resources and install dependencies.
