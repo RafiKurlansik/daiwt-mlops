@@ -7,7 +7,7 @@ import sklearn
 from sklearn.model_selection import train_test_split
 import mlflow
 from mlflow.models import infer_signature
-from mlflow import MlflowClient
+from mlflow.tracking import MlflowClient
 
 import databricks
 from databricks.feature_store import FeatureStoreClient, FeatureLookup
