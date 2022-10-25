@@ -7,6 +7,7 @@ import sklearn
 from sklearn.model_selection import train_test_split
 import mlflow
 from mlflow.models import infer_signature
+from mlflow import MlflowClient
 
 import databricks
 from databricks.feature_store import FeatureStoreClient, FeatureLookup
@@ -235,7 +236,20 @@ class ModelTrain:
             if mlflow_tracking_cfg.model_name is not None:
                 _logger.info('==========MLflow Model Registry==========')
                 _logger.info(f'Registering model: {mlflow_tracking_cfg.model_name}')
-                mlflow.register_model(f'runs:/{mlflow_run.info.run_id}/fs_model',
-                                      name=mlflow_tracking_cfg.model_name)
+                model_details = mlflow.register_model(f'runs:/{mlflow_run.info.run_id}/fs_model',
+                                                        name=mlflow_tracking_cfg.model_name)
+                client = MlflowClient()
+                model_version_details = client.get_model_version(name=mlflow_tracking_cfg.model_name,
+                                                                 version=model_details.version)
+                
+                _logger.info(f'Transitioning model: {mlflow_tracking_cfg.model_name} to Staging...')
+
+                client.transition_model_version_stage(
+                    name=mlflow_tracking_cfg.model_name,
+                    version=model_details.version,
+                    stage='Staging'
+                )
+
+                
 
         _logger.info('==========Model training completed==========')
