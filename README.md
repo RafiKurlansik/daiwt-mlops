@@ -1,4 +1,4 @@
-# MLOps on Databricks
+# MLOps on the Databricks Lakehouse
 #### Unifying DataOps, ModelOps, and DevOps
 
 This repo demonstrates an end-to-end MLOps workflow on Databricks that follows the __deploy code__ reference architecture discussed in the [Big Book of MLOps](https://bit.ly/big-book-of-mlops) and at [Data & AI Summit 2022](https://www.youtube.com/watch?v=JApPzAnbfPI).  
