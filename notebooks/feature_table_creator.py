@@ -70,3 +70,7 @@ cfg = FeatureTableCreatorConfig(input_table=pipeline_config['input_table'],
 # Instantiate pipeline
 feature_table_creator_pipeline = FeatureTableCreator(cfg)
 feature_table_creator_pipeline.run()
+
+# COMMAND ----------
+
+

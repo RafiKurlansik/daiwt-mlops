@@ -49,9 +49,14 @@ model_registry_stage = pipeline_config['mlflow_params']['model_registry_stage']
 model_uri = f'models:/{model_name}/{model_registry_stage}'
 print(f'model_uri: {model_uri}')
 
-# Set input table name
-input_table_name = pipeline_config['data_input']['table_name']
-print(f'input_table_name: {input_table_name}')
+if dbutils.widgets.get(name='env') == 'dev':
+    # Set input table name
+    input_table_name = "daiwt_mlops_dev.churn_labels"
+    print(f'input_table_name: {input_table_name}')
+else:
+    # Set input table name
+    input_table_name = pipeline_config['data_input']['table_name']
+    print(f'input_table_name: {input_table_name}')
 
 # Set output table name
 predictions_table_database_name = env_vars['predictions_table_database_name']
@@ -67,3 +72,7 @@ model_inference_pipeline = ModelInference(model_uri=model_uri,
                                           output_table_name=predictions_table_name)
 
 model_inference_pipeline.run_and_write_batch(mode=pipeline_config['data_output']['mode'])
+
+# COMMAND ----------
+
+
