@@ -52,9 +52,9 @@ env_vars = load_and_set_env_vars(env=dbutils.widgets.get('env'))
 
 # DBTITLE 1,Pipeline Class
 class DemoSetup:
-    
+
     def __init__(self, conf: dict, env_vars: dict):
-        
+
         self.conf = conf
         self.env_vars = env_vars
 
@@ -308,7 +308,3 @@ class DemoSetup:
 # Instantiate pipeline
 demo_setup_pipeline = DemoSetup(conf=pipeline_config, env_vars=env_vars)
 demo_setup_pipeline.run()
-
-# COMMAND ----------
-
-
