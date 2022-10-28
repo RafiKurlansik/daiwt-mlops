@@ -2,7 +2,7 @@ custom:
 
   # Cluster configs for each environment
   default-cluster-spec: &default-cluster-spec
-    spark_version: '11.3.x-cpu-ml-scala2.12'
+    spark_version: '11.2.x-cpu-ml-scala2.12'
     node_type_id: 'Standard_DS3_v2' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
     driver_node_type_id: 'Standard_DS3_v2'  # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
     num_workers: 1
@@ -32,45 +32,45 @@ environments:
   dev:
     strict_path_adjustment_policy: true
     workflows:
-      - name: 'daiwt-DEV-telco-churn-demo-setup'
+      - name: 'daiwt-DEV-telco-churn-demo-setup-Paris'
         <<: *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/demo_setup'
+          notebook_path: '/Repos/anastasia.prokaievak@databricks.com/daiwt-mlops/notebooks/demo_setup'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
-      - name: 'daiwt-DEV-telco-churn-feature-table-creation'
+      - name: 'daiwt-DEV-telco-churn-feature-table-creation-Paris'
         <<: *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/feature_table_creator'
+          notebook_path: '/Repos/anastasia.prokaieva@databricks.com/daiwt-mlops/notebooks/feature_table_creator'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/feature_table_creator.yml']
-      - name: 'daiwt-DEV-telco-churn-model-train'
+      - name: 'daiwt-DEV-telco-churn-model-train-Paris'
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_train'
+          notebook_path: '/Repos/anastasia.prokaieva@databricks.com/daiwt-mlops/notebooks/model_train'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
-      - name: 'daiwt-DEV-telco-churn-model-deployment'
+      - name: 'daiwt-DEV-telco-churn-model-deployment-Paris'
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_deployment'
+          notebook_path: '/Repos/anastasia.prokaieva@databricks.com/daiwt-mlops/notebooks/model_deployment'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
-      - name: 'daiwt-DEV-telco-churn-model-inference-batch'
+      - name: 'daiwt-DEV-telco-churn-model-inference-batch-Paris'
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_inference_batch'
+          notebook_path: '/Repos/anastasia.prokaieva@databricks.com/daiwt-mlops/notebooks/model_inference_batch'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
-      - name: 'daiwt-DEV-telco-churn-sample-integration-test'
+      - name: 'daiwt-DEV-telco-churn-sample-integration-test-Paris'
         <<:
           - *dev-cluster-config
         notebook_task:
@@ -82,7 +82,7 @@ environments:
   staging:
     strict_path_adjustment_policy: true
     workflows:
-      - name: 'daiwt-STAGING-telco-churn-sample-integration-test'
+      - name: 'daiwt-STAGING-telco-churn-sample-integration-test-Paris'
         <<:
           - *staging-cluster-config
         notebook_task:
@@ -93,10 +93,10 @@ environments:
   prod:
     strict_path_adjustment_policy: true
     workflows:
-      - name: 'daiwt-PROD-telco-churn-demo-setup'
+      - name: 'daiwt-PROD-telco-churn-demo-setup-Paris'
         <<: *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/AnastasiaProkaieva/daiwt_mlops_Paris.git
           git_provider: "github"
           git_branch: "main"
         notebook_task:
@@ -105,7 +105,7 @@ environments:
                        '--env', 'file:fuse://conf/prod/.prod.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
 
-      - name: 'daiwt-PROD-telco-churn-initial-model-train-register'
+      - name: 'daiwt-PROD-telco-churn-initial-model-train-register-Paris'
         tasks:
           - task_key: 'demo-setup'
             <<:
@@ -135,9 +135,9 @@ environments:
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
 
-      - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow'
+      - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow-Paris'
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/AnastasiaProkaieva/daiwt_mlops_Paris.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -146,7 +146,7 @@ environments:
             notebook_task:
               notebook_path: 'notebooks/model_train'
               base_parameters: {"env" : "prod"}
-            
+
           - task_key: 'model-deploy'
             <<: *prod-cluster-config
             notebook_task:
@@ -164,11 +164,11 @@ environments:
               - task_key: 'model-train'
               - task_key: 'model-deploy'
 
-      - name: 'daiwt-PROD-telco-churn-model-train'
+      - name: 'daiwt-PROD-telco-churn-model-train-Paris'
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/AnastasiaProkaieva/daiwt_mlops_Paris.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -179,7 +179,7 @@ environments:
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
-      - name: 'daiwt-PROD-telco-churn-model-deployment'
+      - name: 'daiwt-PROD-telco-churn-model-deployment-Paris'
         <<:
           - *prod-cluster-config
         git_source:
@@ -193,11 +193,11 @@ environments:
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
-      - name: 'daiwt-PROD-telco-churn-model-inference-batch'
+      - name: 'daiwt-PROD-telco-churn-model-inference-batch-Paris'
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/AnastasiaProkaieva/daiwt_mlops_Paris.git
           git_provider: "github"
           git_branch: "main"
         tasks:
