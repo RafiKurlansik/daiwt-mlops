@@ -19,8 +19,8 @@
             "profile": "DEFAULT",
             "storage_type": "mlflow",
             "properties": {
-                "workspace_directory": "/Shared/dbx/projects/daiwt-mlops",
-                "artifact_location": "dbfs:/dbx/daiwt-mlops"
+                "workspace_directory": "/Shared/mzervou/dbx/projects/daiwt-mlops",
+                "artifact_location": "dbfs:/mzervou/dbx/daiwt-mlops"
             }
         }
     },
