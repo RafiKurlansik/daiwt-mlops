@@ -3,8 +3,8 @@ custom:
   # Cluster configs for each environment
   default-cluster-spec: &default-cluster-spec
     spark_version: '11.3.x-cpu-ml-scala2.12'
-    node_type_id: 'Standard_DS3_v2' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
-    driver_node_type_id: 'Standard_DS3_v2'  # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
+    node_type_id: 'i3en.2xlarge' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
+    driver_node_type_id: 'i3en.2xlarge'  # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
     num_workers: 1
     # To reduce start up time for each job, it is advisable to use a cluster pool. To do so involves supplying the following
     # two fields with a pool_id to acquire both the driver and instances from.
@@ -96,7 +96,7 @@ environments:
       - name: 'daiwt-PROD-telco-churn-demo-setup'
         <<: *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/marzervou/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         notebook_task:
@@ -137,7 +137,7 @@ environments:
 
       - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow'
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/marzervou/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -168,7 +168,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/marzervou/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -183,7 +183,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/marzervou/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -197,7 +197,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/marzervou/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
