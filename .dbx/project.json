@@ -1,26 +1,26 @@
 {
     "environments": {
         "dev": {
-            "profile": "daiwt-dev",
-            "workspace_dir": "/Shared/daiwt_mlops/dev/dbx/daiwt_mlops_dev",
-            "artifact_location": "dbfs:/Shared/daiwt_mlops/dev/dbx/projects/daiwt_mlops_dbx_dev"
+            "profile": "e2-demo-emea",
+            "workspace_dir": "/Shared/daiwtmuc_mlops/dev/dbx/daiwtmuc_mlops_dev",
+            "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/dev/dbx/projects/daiwtmuc_mlops_dbx_dev"
         },
         "staging": {
-            "profile": "daiwt-staging",
-            "workspace_dir": "/Shared/daiwt_mlops/staging/dbx/daiwt_mlops_staging",
-            "artifact_location": "dbfs:/Shared/daiwt_mlops/staging/dbx/projects/daiwt_mlops_dbx_staging"
+            "profile": "e2-demo-emea",
+            "workspace_dir": "/Shared/daiwtmuc_mlops/staging/dbx/daiwtmuc_mlops_staging",
+            "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/staging/dbx/projects/daiwtmuc_mlops_dbx_staging"
         },
         "prod": {
-            "profile": "daiwt-prod",
-            "workspace_dir": "/Shared/daiwt_mlops/prod/dbx/daiwt_mlops_prod",
-            "artifact_location": "dbfs:/Shared/daiwt_mlops/prod/dbx/projects/daiwt_mlops_dbx_prod"
+            "profile": "e2-demo-emea",
+            "workspace_dir": "/Shared/daiwtmuc_mlops/prod/dbx/daiwtmuc_mlops_prod",
+            "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/prod/dbx/projects/daiwtmuc_mlops_dbx_prod"
         },
         "default": {
             "profile": "DEFAULT",
             "storage_type": "mlflow",
             "properties": {
-                "workspace_directory": "/Shared/dbx/projects/daiwt-mlops",
-                "artifact_location": "dbfs:/dbx/daiwt-mlops"
+                "workspace_directory": "/Shared/dbx/projects/daiwtmuc-mlops",
+                "artifact_location": "dbfs:/dbx/daiwtmuc-mlops"
             }
         }
     },
