@@ -96,7 +96,7 @@ environments:
       - name: 'daiwtmuc-PROD-telco-churn-demo-setup'
         <<: *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwtmuc-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         notebook_task:
@@ -137,7 +137,7 @@ environments:
 
       - name: 'daiwtmuc-PROD-telco-churn-train-deploy-inference-workflow'
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwtmuc-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -168,7 +168,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwtmuc-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -183,7 +183,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwtmuc-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -197,7 +197,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwtmuc-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops
           git_provider: "github"
           git_branch: "main"
         tasks:
