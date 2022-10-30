@@ -30,7 +30,7 @@ This repo possesses the following pipelines:
 The following outlines the workflow to demo the repo.
 
 ### Set up
-1. Fork https://github.com/RafiKurlansik/daiwt-mlops
+1. Fork https://github.com/RafiKurlansik/daiwtmuc-mlops
 1. Configure [Databricks CLI connection profile](https://docs.databricks.com/dev-tools/cli/index.html#connection-profiles)
     - The project is designed to use 3 different Databricks CLI connection profiles: dev, staging and prod. 
       These profiles are set in [e2e-mlops/.dbx/project.json](https://github.com/niall-turbitt/e2e-mlops/blob/main/.dbx/project.json).

@@ -3,8 +3,8 @@ custom:
   # Cluster configs for each environment
   default-cluster-spec: &default-cluster-spec
     spark_version: '11.3.x-cpu-ml-scala2.12'
-    node_type_id: 'Standard_DS3_v2' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
-    driver_node_type_id: 'Standard_DS3_v2'  # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
+    node_type_id: 'r3.xlarge' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
+    driver_node_type_id: 'r3.xlarge'  # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
     num_workers: 1
     # To reduce start up time for each job, it is advisable to use a cluster pool. To do so involves supplying the following
     # two fields with a pool_id to acquire both the driver and instances from.
@@ -32,45 +32,45 @@ environments:
   dev:
     strict_path_adjustment_policy: true
     workflows:
-      - name: 'daiwt-DEV-telco-churn-demo-setup'
+      - name: 'daiwtmuc-DEV-telco-churn-demo-setup'
         <<: *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/demo_setup'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/demo_setup'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
-      - name: 'daiwt-DEV-telco-churn-feature-table-creation'
+      - name: 'daiwtmuc-DEV-telco-churn-feature-table-creation'
         <<: *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/feature_table_creator'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/feature_table_creator'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/feature_table_creator.yml']
-      - name: 'daiwt-DEV-telco-churn-model-train'
+      - name: 'daiwtmuc-DEV-telco-churn-model-train'
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_train'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/model_train'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
-      - name: 'daiwt-DEV-telco-churn-model-deployment'
+      - name: 'daiwtmuc-DEV-telco-churn-model-deployment'
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_deployment'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/model_deployment'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
-      - name: 'daiwt-DEV-telco-churn-model-inference-batch'
+      - name: 'daiwtmuc-DEV-telco-churn-model-inference-batch'
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/rafi.kurlansik@databricks.com/daiwt-mlops/notebooks/model_inference_batch'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/model_inference_batch'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
-      - name: 'daiwt-DEV-telco-churn-sample-integration-test'
+      - name: 'daiwtmuc-DEV-telco-churn-sample-integration-test'
         <<:
           - *dev-cluster-config
         notebook_task:
@@ -82,7 +82,7 @@ environments:
   staging:
     strict_path_adjustment_policy: true
     workflows:
-      - name: 'daiwt-STAGING-telco-churn-sample-integration-test'
+      - name: 'daiwtmuc-STAGING-telco-churn-sample-integration-test'
         <<:
           - *staging-cluster-config
         notebook_task:
@@ -93,10 +93,10 @@ environments:
   prod:
     strict_path_adjustment_policy: true
     workflows:
-      - name: 'daiwt-PROD-telco-churn-demo-setup'
+      - name: 'daiwtmuc-PROD-telco-churn-demo-setup'
         <<: *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         notebook_task:
@@ -105,7 +105,7 @@ environments:
                        '--env', 'file:fuse://conf/prod/.prod.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
 
-      - name: 'daiwt-PROD-telco-churn-initial-model-train-register'
+      - name: 'daiwtmuc-PROD-telco-churn-initial-model-train-register'
         tasks:
           - task_key: 'demo-setup'
             <<:
@@ -135,9 +135,9 @@ environments:
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
 
-      - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow'
+      - name: 'daiwtmuc-PROD-telco-churn-train-deploy-inference-workflow'
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -164,11 +164,11 @@ environments:
               - task_key: 'model-train'
               - task_key: 'model-deploy'
 
-      - name: 'daiwt-PROD-telco-churn-model-train'
+      - name: 'daiwtmuc-PROD-telco-churn-model-train'
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -179,11 +179,11 @@ environments:
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
-      - name: 'daiwt-PROD-telco-churn-model-deployment'
+      - name: 'daiwtmuc-PROD-telco-churn-model-deployment'
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -193,11 +193,11 @@ environments:
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
-      - name: 'daiwt-PROD-telco-churn-model-inference-batch'
+      - name: 'daiwtmuc-PROD-telco-churn-model-inference-batch'
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/RafiKurlansik/daiwt-mlops.git
+          git_url: https://github.com/tsennikova/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
