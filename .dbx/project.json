@@ -2,18 +2,24 @@
     "environments": {
         "dev": {
             "profile": "e2-demo-emea",
-            "workspace_dir": "/Shared/daiwtmuc_mlops/dev/dbx/daiwtmuc_mlops_dev",
-            "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/dev/dbx/projects/daiwtmuc_mlops_dbx_dev"
+            "properties": {
+                "workspace_dir": "/Shared/daiwtmuc_mlops/dev/dbx/daiwtmuc_mlops_dev",
+                "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/dev/dbx/projects/daiwtmuc_mlops_dbx_dev"
+            }
         },
         "staging": {
             "profile": "e2-demo-emea",
-            "workspace_dir": "/Shared/daiwtmuc_mlops/staging/dbx/daiwtmuc_mlops_staging",
-            "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/staging/dbx/projects/daiwtmuc_mlops_dbx_staging"
+            "properties": {
+                "workspace_dir": "/Shared/daiwtmuc_mlops/staging/dbx/daiwtmuc_mlops_staging",
+                "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/staging/dbx/projects/daiwtmuc_mlops_dbx_staging"
+            }
         },
         "prod": {
             "profile": "e2-demo-emea",
-            "workspace_dir": "/Shared/daiwtmuc_mlops/prod/dbx/daiwtmuc_mlops_prod",
-            "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/prod/dbx/projects/daiwtmuc_mlops_dbx_prod"
+            "properties": {
+                "workspace_dir": "/Shared/daiwtmuc_mlops/prod/dbx/daiwtmuc_mlops_prod",
+                "artifact_location": "dbfs:/Shared/daiwtmuc_mlops/prod/dbx/projects/daiwtmuc_mlops_dbx_prod"
+            }
         },
         "default": {
             "profile": "DEFAULT",
