@@ -35,14 +35,14 @@ environments:
       - name: 'daiwtmuc-DEV-telco-churn-demo-setup'
         <<: *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwtmuc-mlops/notebooks/demo_setup'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/demo_setup'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
       - name: 'daiwtmuc-DEV-telco-churn-feature-table-creation'
         <<: *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwtmuc-mlops/notebooks/feature_table_creator'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/feature_table_creator'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/feature_table_creator.yml']
@@ -50,7 +50,7 @@ environments:
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwtmuc-mlops/notebooks/model_train'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/model_train'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
@@ -58,7 +58,7 @@ environments:
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwtmuc-mlops/notebooks/model_deployment'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/model_deployment'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_deployment.yml']
@@ -66,7 +66,7 @@ environments:
         <<:
           - *dev-cluster-config
         notebook_task:
-          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwtmuc-mlops/notebooks/model_inference_batch'
+          notebook_path: '/Repos/tatiana.sennikova@databricks.com/daiwt-mlops/notebooks/model_inference_batch'
           parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/model_inference_batch.yml']
