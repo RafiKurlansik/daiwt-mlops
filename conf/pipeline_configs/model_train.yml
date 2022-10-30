@@ -1,5 +1,5 @@
 mlflow_params:
-  run_name: 'deepest_ever_forest'
+  run_name: 'deep_ever_forest'
 
 pipeline_params:
   test_size: 0.25
@@ -7,7 +7,7 @@ pipeline_params:
 
 model_params:
   n_estimators: 100
-  max_depth: 2
+  max_depth: 3
   min_samples_leaf: 1
   max_features: 'auto'
   random_state: 42
