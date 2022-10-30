@@ -51,7 +51,7 @@ print(f'model_uri: {model_uri}')
 
 if dbutils.widgets.get(name='env') == 'dev':
     # Set input table name
-    input_table_name = "daiwt_mlops_dev.churn_labels"
+    input_table_name = "daiwtmuc_mlops_dev.churn_labels"
     print(f'input_table_name: {input_table_name}')
 else:
     # Set input table name
