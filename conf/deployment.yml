@@ -136,10 +136,6 @@ environments:
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
 
       - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow'
-        git_source:
-          git_url: https://github.com/marzervou/daiwt-mlops
-          git_provider: "github"
-          git_branch: "main"
         tasks:
           - task_key: 'model-train'
             <<: *prod-cluster-config
