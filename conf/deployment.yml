@@ -1,6 +1,6 @@
 custom:
 
-  # Cluster configs for each environment.....
+  # Cluster configs for each environment
   default-cluster-spec: &default-cluster-spec
     spark_version: '11.3.x-cpu-ml-scala2.12'
     #node_type_id: 'i3en.2xlarge' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
@@ -136,6 +136,9 @@ environments:
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
 
       - name: 'daiwt-PROD-telco-churn-train-deploy-inference-workflow'
+        git_url: https://github.com/marzervou/daiwt-mlops.git
+          git_provider: "github"
+          git_branch: "main"
         tasks:
           - task_key: 'model-train'
             <<: *prod-cluster-config
@@ -164,7 +167,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/marzervou/daiwt-mlops
+          git_url: https://github.com/marzervou/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -179,7 +182,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/marzervou/daiwt-mlops
+          git_url: https://github.com/marzervou/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
@@ -193,7 +196,7 @@ environments:
         <<:
           - *prod-cluster-config
         git_source:
-          git_url: https://github.com/marzervou/daiwt-mlops
+          git_url: https://github.com/marzervou/daiwt-mlops.git
           git_provider: "github"
           git_branch: "main"
         tasks:
