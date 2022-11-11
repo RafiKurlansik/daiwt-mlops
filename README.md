@@ -1,8 +1,11 @@
 # MLOps on the Databricks Lakehouse
 #### Unifying DataOps, ModelOps, and DevOps
 
-This repo demonstrates an end-to-end MLOps workflow on Databricks that follows the __deploy code__ reference architecture discussed in the [Big Book of MLOps](https://bit.ly/big-book-of-mlops) and at [Data & AI Summit 2022](https://www.youtube.com/watch?v=JApPzAnbfPI).  
+This repo demonstrates an end-to-end MLOps workflow on Databricks that follows the __deploy code__ reference architecture discussed in the [Big Book of MLOps](https://bit.ly/big-book-of-mlops) and at [Data & AI Summit 2022](https://www.youtube.com/watch?v=JApPzAnbfPI). 
 
+**Since the release of this repo, Databricks has built a official MLOps template, currently in private preview. If you would like to express interest and enroll in a private preview version of this template, please complete this [questionnaire](https://docs.google.com/forms/d/e/1FAIpQLSfHXCmkbsEURjQQvtUGObgh2D5q1eD4YRHnUxZ0M4Hu0W63WA/viewform).**
+
+___
 The feature engineering, training, deployment and inference pipelines are deployed as a [Databricks Workflow](https://docs.databricks.com/data-engineering/jobs/jobs.html) using [`dbx`](https://dbx.readthedocs.io/en/latest/index.html) by Databricks Labs. GitHub Actions are used to orchestrate the movement of code from the development environment, to staging, and finally to production.  This project can be configured to use a single Databricks workspace for all three environments, or multiple workspaces.  
 
 This project can be run as a pure Python package, or as notebooks.  The current configuration is to deploy Databricks Workflows that run notebooks, but if you want to deploy Python wheels please see [Niall Turbitt's original repo](https://github.com/niall-turbitt/e2e-mlops).  If you are curious about the structure of the codebase, please watch the demo portion of the [recording from DAIS](https://www.youtube.com/watch?v=JApPzAnbfPI).
