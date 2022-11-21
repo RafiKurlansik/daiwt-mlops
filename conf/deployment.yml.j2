@@ -33,10 +33,18 @@ environments:
     strict_path_adjustment_policy: true
     workflows:
       - name: 'daiwt-DEV-telco-churn-demo-setup'
-        <<: *dev-cluster-config
-        notebook_task:
-          notebook_path: "{{ var['REPO_PATH'] }}/notebooks/demo_setup"
-          parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
+        tasks:
+          - task_key: 'data_load'
+            <<: *dev-cluster-config
+            notebook_task:
+              notebook_path: "{{ var['REPO_PATH'] }}/notebooks/get_dataset"
+          - task_key: 'demo_setup'
+            <<: *dev-cluster-config
+            depends_on:
+            - task_key: 'data_load'
+            notebook_task:
+              notebook_path: "{{ var['REPO_PATH'] }}/notebooks/demo_setup"
+              parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                        '--env', 'file:fuse://conf/dev/.dev.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
       - name: 'daiwt-DEV-telco-churn-feature-table-creation'

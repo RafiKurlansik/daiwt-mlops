@@ -32,6 +32,31 @@ This repo possesses the following pipelines:
 ## Demo
 The following outlines the workflow to demo the repo.
 
+### OS Level Setup
+
+Windows with VSCode:
+
+Best approach is to setup a dev container and work with that:
+Setup: https://learn.microsoft.com/en-us/windows/wsl/install
+Also setup: https://code.visualstudio.com/docs/devcontainers/containers
+
+Developing in a container allows for a more seamless and replicable experience.
+
+### Databricks CLI and dbx
+
+Within your container environment, both databricks-cli and dbx will be needed.
+Note installing dbx will automatically install databricks-cli
+dbx: https://docs.databricks.com/dev-tools/dbx.html
+databricks-cli: https://docs.databricks.com/dev-tools/cli/index.html
+
+Setup databricks-cli with:
+`databricks configure --token`
+
+Note you will have to have permission to create a user token.
+See: https://docs.databricks.com/dev-tools/api/latest/authentication.html
+
+dapi7e9daae89976155216ef0ec0ce1c531b
+
 ### Set up
 1. Fork https://github.com/RafiKurlansik/daiwt-mlops
 1. Configure [Databricks CLI connection profile](https://docs.databricks.com/dev-tools/cli/index.html#connection-profiles)
@@ -55,10 +80,31 @@ The following outlines the workflow to demo the repo.
         - `GH_TOKEN`
             - GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
+#### Setup and Sync
+
+With all this setup, we now need to get the initial dataset setup
+
+The `daiwt-DEV-telco-churn-demo-setup` job will run the dataset load process as well.
+
+The `dev`, `staging` and `prod` environments will need to be setup.
+First go to `conf/vars.yml` and set the Repo path to where the repo will sit within your workspace.
+For testing, it will probably be "/Repos/<your_user_name>/daiwt-mlops" for production deployments, you might want to utilise a shared directory and execute with service accounts.  
+
+To deploy environments use:
+`dbx deploy -e dev --jinja-variables-file=conf/vars.yml`
+`dbx deploy -e staging --jinja-variables-file=conf/vars.yml`
+`dbx deploy -e prod --jinja-variables-file=conf/vars.yml`
+
+To run the daiwt-DEV-telco-churn-demo-setup workflow using:
+`dbx launch -e dev daiwt-DEV-telco-churn-demo-setup`
+`dbx launch -e prod daiwt-PROD-telco-churn-demo-setup`
+
 #### Starting from scratch
 To start over or delete all of the resources in a given workspace, run the `demo-setup` pipeline.  As part of the `initial-model-train-register` multitask job, the first task `demo-setup` will delete any existing resources, as specified in [`demo_setup.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/demo_setup.yml).
 
 ### Workflow
+
+With everything setup, we can run the multitask jobs to demonstrate the use of MLOps
 
 1. **Run `PROD-telco-churn-initial-model-train-register` multitask job in prod environment**
 
