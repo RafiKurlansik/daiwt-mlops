@@ -55,8 +55,6 @@ Setup databricks-cli with:
 Note you will have to have permission to create a user token.
 See: https://docs.databricks.com/dev-tools/api/latest/authentication.html
 
-dapi7e9daae89976155216ef0ec0ce1c531b
-
 ### Set up
 1. Fork https://github.com/RafiKurlansik/daiwt-mlops
 1. Configure [Databricks CLI connection profile](https://docs.databricks.com/dev-tools/cli/index.html#connection-profiles)
