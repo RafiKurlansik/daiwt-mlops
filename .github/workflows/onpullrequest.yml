@@ -42,8 +42,7 @@ jobs:
 
       - name: Deploy integration test [staging environment]
         run: |
-          dbx deploy --jobs=daiwt-STAGING-telco-churn-sample-integration-test --environment=staging --files-only
-
+           dbx deploy -e staging --workflows=daiwt-STAGING-telco-churn-sample-integration-test
       - name: Run integration test [staging environment]
         run: |
-          dbx launch --job=daiwt-STAGING-telco-churn-sample-integration-test --environment=staging --as-run-submit --trace 
+          dbx launch -e staging --trace daiwt-STAGING-telco-churn-sample-integration-test
