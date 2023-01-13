@@ -46,4 +46,4 @@ jobs:
 
       - name: Run integration test [staging environment]
         run: |
-          dbx launch -e staging --trace daiwt-STAGING-telco-churn-sample-integration-test 
+          dbx launch -e staging --from-assets --trace daiwt-STAGING-telco-churn-sample-integration-test 
