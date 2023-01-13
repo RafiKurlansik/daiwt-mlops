@@ -86,7 +86,7 @@ environments:
         <<:
           - *staging-cluster-config
         notebook_task:
-          notebook_path: '/tests/integration/sample_test.py'
+          notebook_path: 'tests/integration/sample_test.py'
           parameters: ['--env', 'file:fuse://conf/staging/.staging.env',
                        '--conf-file', 'file:fuse://conf/pipeline_configs/sample_test.yml']
 
