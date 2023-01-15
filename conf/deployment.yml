@@ -112,7 +112,7 @@ environments:
             <<:
               - *prod-cluster-config
             spark_python_task:
-              python_file: '/telco_churn/pipelines/demo_setup_job.py'
+              python_file: '/Repos/sepideh.ebrahimi@databricks.com/daiwt-mlops/telco_churn/pipelines/demo_setup_job.py'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/demo_setup.yml']
@@ -121,7 +121,7 @@ environments:
             depends_on:
               - task_key: 'demo-setup'
             spark_python_task:
-              python_file: '/telco_churn/pipelines/feature_table_creator_job.py'
+              python_file: '/Repos/sepideh.ebrahimi@databricks.com/daiwt-mlops/telco_churn/pipelines/feature_table_creator_job.py'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/feature_table_creator.yml']
@@ -131,7 +131,7 @@ environments:
               - task_key: 'demo-setup'
               - task_key: 'feature-table-creation'
             spark_python_task:
-              python_file: '/telco_churn/pipelines/model_train_job.py'
+              python_file: '/Repos/sepideh.ebrahimi@databricks.com/daiwt-mlops/telco_churn/pipelines/model_train_job.py'
               parameters: ['--base-data-params', 'file:fuse://conf/.base_data_params.env',
                            '--env', 'file:fuse://conf/prod/.prod.env',
                            '--conf-file', 'file:fuse://conf/pipeline_configs/model_train.yml']
