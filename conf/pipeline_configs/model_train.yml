@@ -1,5 +1,5 @@
 mlflow_params:
-  run_name: 'medium_forest'
+  run_name: 'medium_forest_avi'
 
 pipeline_params:
   test_size: 0.33
