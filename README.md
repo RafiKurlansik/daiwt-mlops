@@ -36,7 +36,7 @@ The following outlines the workflow to demo the repo.
 1. Fork https://github.com/RafiKurlansik/daiwt-mlops
 1. Configure [Databricks CLI connection profile](https://docs.databricks.com/dev-tools/cli/index.html#connection-profiles)
     - The project is designed to use 3 different Databricks CLI connection profiles: dev, staging and prod. 
-      These profiles are set in [e2e-mlops/.dbx/project.json](https://github.com/niall-turbitt/e2e-mlops/blob/main/.dbx/project.json).
+      These profiles are set in [e2e-mlops/.dbx/project.json](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/.dbx/project.json).
     - Note that for demo purposes we use the same connection profile for each of the 3 environments. 
       **In practice each profile would correspond to separate dev, staging and prod Databricks workspaces.**
     - This [project.json](https://github.com/niall-turbitt/e2e-mlops/blob/main/.dbx/project.json) file will have to be 
@@ -56,7 +56,7 @@ The following outlines the workflow to demo the repo.
             - GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
 #### Starting from scratch
-To start over or delete all of the resources in a given workspace, run the `demo-setup` pipeline.  As part of the `initial-model-train-register` multitask job, the first task `demo-setup` will delete any existing resources, as specified in [`demo_setup.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/demo_setup.yml).
+To start over or delete all of the resources in a given workspace, run the `demo-setup` pipeline.  As part of the `initial-model-train-register` multitask job, the first task `demo-setup` will delete any existing resources, as specified in [`demo_setup.yml`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/conf/pipeline_configs/demo_setup.yml).
 
 ### Workflow
 
@@ -80,9 +80,9 @@ To start over or delete all of the resources in a given workspace, run the `demo
            ```
            See the Limitations section below regarding running multitask jobs. In order to reduce cluster start up time
            you may want to consider using a [Databricks pool](https://docs.databricks.com/clusters/instance-pools/index.html), 
-           and specify this pool ID in [`conf/deployment.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/deployment.yml).
+           and specify this pool ID in [`conf/deployment.yml`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/conf/deployment.yml).
     - `PROD-telco-churn-initial-model-train-register` tasks:
-        1. Demo setup task steps ([`demo-setup`](https://github.com/niall-turbitt/e2e-mlops/blob/main/telco_churn/jobs/demo_setup_job.py))
+        1. Demo setup task steps ([`demo-setup`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/telco_churn/pipelines/demo_setup_job.py))
             1. Delete Model Registry model if exists (archive any existing models).
             1. Delete MLflow experiment if exists.
             1. Delete Feature Table if exists.
@@ -101,8 +101,8 @@ To start over or delete all of the resources in a given workspace, run the `demo
 
     - Create new “dev/new_model” branch 
         - `git checkout -b  dev/new_model`
-    - Make a change to the [`model_train.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/model_train.yml) config file, updating `max_depth` under model_params from 4 to 8
-        - Optional: change run name under mlflow params in [`model_train.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/model_train.yml) config file
+    - Make a change to the [`model_train.yml`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/conf/pipeline_configs/model_train.yml) config file, updating `max_depth` under model_params from 4 to 8
+        - Optional: change run name under mlflow params in [`model_train.yml`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/conf/pipeline_configs/model_train.yml) config file
     - Create pull request, to instantiate a request to merge the branch dev/new_model into main. 
 
 * On pull request the following steps are triggered in the GitHub Actions workflow:
@@ -120,7 +120,7 @@ To start over or delete all of the resources in a given workspace, run the `demo
     - Push tag
         - `git push origin <tag_name>`
 
-    - On pushing this the following steps are triggered in the [`onrelease.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/.github/workflows/onrelease.yml) GitHub Actions workflow:
+    - On pushing this the following steps are triggered in the [`onrelease.yml`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/.github/workflows/onrelease.yml) GitHub Actions workflow:
         1. Trigger unit tests.
         1. Deploy `PROD-telco-churn-model-train-deployment-inference-workflow` job to the prod environment.
         1. Launch `PROD-telco-churn-model-train-deployment-inference-workflow`
@@ -144,7 +144,7 @@ At this point, there should now be two model versions registered in MLflow Model
 5. **Inspect the `model-deployment` task (Continuous Deployment) in the prod environment**
     - Model deployment task steps:
         1. Compare new “candidate model” in `stage='Staging'` versus current Production model in `stage='Production'`.
-        1. Comparison criteria set through [`model_deployment.yml`](https://github.com/niall-turbitt/e2e-mlops/blob/main/conf/job_configs/model_deployment.yml)
+        1. Comparison criteria set through [`model_deployment.yml`](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/conf/pipeline_configs/model_deployment.yml)
             1. Compute predictions using both models against a specified reference dataset
             1. If Staging model performs better than Production model, promote Staging model to Production and archive existing Production model
             1. If Staging model performs worse than Production model, archive Staging model
