@@ -36,10 +36,10 @@ The following outlines the workflow to demo the repo.
 1. Fork https://github.com/RafiKurlansik/daiwt-mlops
 1. Configure [Databricks CLI connection profile](https://docs.databricks.com/dev-tools/cli/index.html#connection-profiles)
     - The project is designed to use 3 different Databricks CLI connection profiles: dev, staging and prod. 
-      These profiles are set in [e2e-mlops/.dbx/project.json](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/.dbx/project.json).
+      These profiles are set in [daiwt-mlops/.dbx/project.json](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/.dbx/project.json).
     - Note that for demo purposes we use the same connection profile for each of the 3 environments. 
       **In practice each profile would correspond to separate dev, staging and prod Databricks workspaces.**
-    - This [project.json](https://github.com/niall-turbitt/e2e-mlops/blob/main/.dbx/project.json) file will have to be 
+    - This [project.json](https://github.com/RafiKurlansik/daiwt-mlops/blob/main/.dbx/project.json) file will have to be 
       adjusted accordingly to the connection profiles a user has configured on their local machine.
 1. Configure Databricks secrets for GitHub Actions (ensure GitHub actions are enabled for you forked project, as the default is off in a forked repo).
     - Within the GitHub project navigate to Secrets under the project settings
