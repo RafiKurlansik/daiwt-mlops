@@ -1,17 +1,17 @@
 {
     "environments": {
         "dev": {
-            "profile": "daiwt-dev",
+            "profile": "DEFAULT",
             "workspace_dir": "/Shared/daiwt_mlops/dev/dbx/daiwt_mlops_dev",
             "artifact_location": "dbfs:/Shared/daiwt_mlops/dev/dbx/projects/daiwt_mlops_dbx_dev"
         },
         "staging": {
-            "profile": "daiwt-staging",
+            "profile": "DEFAULT",
             "workspace_dir": "/Shared/daiwt_mlops/staging/dbx/daiwt_mlops_staging",
             "artifact_location": "dbfs:/Shared/daiwt_mlops/staging/dbx/projects/daiwt_mlops_dbx_staging"
         },
         "prod": {
-            "profile": "daiwt-prod",
+            "profile": "mlops-azure-prod",
             "workspace_dir": "/Shared/daiwt_mlops/prod/dbx/daiwt_mlops_prod",
             "artifact_location": "dbfs:/Shared/daiwt_mlops/prod/dbx/projects/daiwt_mlops_dbx_prod"
         },
